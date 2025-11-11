@@ -1,17 +1,20 @@
-const homeRoute = async (req, res) => {
-  try {
+// src/controllers/Basic.js
+
+const BaseController = require('./BaseController');
+
+class BasicController extends BaseController {
+  constructor() {
+    super();
+  }
+
+  // GET /api/v1/
+  homeRoute(req, res) {
+    // The logic is now a method of the class
     res.status(200).json({
       status: 'Welcome',
       message: 'Welcome to the Outline Dashboard API',
     });
-  } catch (error) {
-    console.error('Error fetching dashboard stats:', error);
-    res.status(500).json({
-      status: 'error',
-      message: 'Failed to retrieve dashboard statistics',
-    });
   }
-};
-module.exports = {
-    homeRoute
-};
+}
+
+module.exports = { BasicController };

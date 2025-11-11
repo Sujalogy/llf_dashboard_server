@@ -1,14 +1,27 @@
 // src/routes/api.js
 
 const express = require('express');
-const { getDashboardStats, getLatestObservations } = require('../controllers/ObservationController');
-const { homeRoute } = require('../controllers/Basic');
 
-const router = express.Router();
+/**
+ * Creates the API router and registers routes using injected controller instances.
+ * @param {BasicController} basicController 
+ * @param {ObservationController} observationController 
+ * @param {LogController} logController 
+ */
+const createApiRouter = (basicController, observationController, logController) => {
+    const router = express.Router();
 
-// --- Dashboard Endpoints (Public) ---
-router.get('/', homeRoute);
-router.get('/dashboard/stats', getDashboardStats);
-router.get('/observations/latest', getLatestObservations);
+    // --- Basic Endpoints (Public) ---
+    router.get('/', basicController.wrapAsync(basicController.homeRoute));
 
-module.exports = router;
+    // --- Dashboard Endpoints (Public) ---
+    router.get('/dashboard/stats', observationController.wrapAsync(observationController.getDashboardStats));
+    router.get('/observations/latest', observationController.wrapAsync(observationController.getLatestObservations));
+
+    // --- Admin Endpoints (Protected - Auth Middleware to be added) ---
+    router.get('/admin/logs', logController.wrapAsync(logController.getApiLogs)); // NEW LOG API
+
+    return router;
+}
+
+module.exports = { createApiRouter };

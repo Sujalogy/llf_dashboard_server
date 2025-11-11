@@ -1,46 +1,38 @@
 // src/controllers/ObservationController.js
 
-const { ObservationService } = require('../services/ObservationService');
+const BaseController = require('./BaseController');
 
-const observationService = new ObservationService();
+class ObservationController extends BaseController {
+  /**
+   * The Service dependency is injected here, not created inside the Controller.
+   * @param {ObservationService} observationService 
+   */
+  constructor(observationService) {
+    super();
+    this.observationService = observationService;
+  }
 
-// GET /api/v1/dashboard/stats
-const getDashboardStats = async (req, res) => {
-  try {
-    const stats = await observationService.getDashboardStats();
+  // GET /api/v1/dashboard/stats
+  async getDashboardStats(req, res) {
+    // The try/catch error handling is handled by BaseController.wrapAsync
+    const stats = await this.observationService.getDashboardStats();
     res.status(200).json({
       status: 'success',
       data: stats,
     });
-  } catch (error) {
-    console.error('Error fetching dashboard stats:', error);
-    res.status(500).json({
-      status: 'error',
-      message: 'Failed to retrieve dashboard statistics',
-    });
   }
-};
 
-// GET /api/v1/observations/latest?limit=10
-const getLatestObservations = async (req, res) => {
-  try {
+  // GET /api/v1/observations/latest?limit=10
+  async getLatestObservations(req, res) {
+    // The try/catch error handling is handled by BaseController.wrapAsync
     const limit = parseInt(req.query.limit, 10) || 10;
-    const observations = await observationService.getLatestObservations(limit);
+    const observations = await this.observationService.getLatestObservations(limit);
     res.status(200).json({
       status: 'success',
       count: observations.length,
       data: observations,
     });
-  } catch (error) {
-    console.error('Error fetching latest observations:', error);
-    res.status(500).json({
-      status: 'error',
-      message: 'Failed to retrieve latest observations',
-    });
   }
-};
+}
 
-module.exports = {
-    getDashboardStats,
-    getLatestObservations
-};
+module.exports = { ObservationController };

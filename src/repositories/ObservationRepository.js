@@ -1,7 +1,7 @@
 // src/repositories/ObservationRepository.js
 
 const { Observation } = require('../models/Observation');
-const { Op } = require('sequelize');
+// const { Op } = require('sequelize'); // Removed unused import
 
 class ObservationRepository {
   
@@ -15,7 +15,6 @@ class ObservationRepository {
       attributes: [
         // Original Dashboard Fields
         'id', 'timestamp', 'value', 'location', 'type',
-        
         // Key Identifying & Status Fields for Dashboard List View
         'SubmissionDate',
         'starttime',

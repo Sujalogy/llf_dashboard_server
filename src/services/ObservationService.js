@@ -1,6 +1,6 @@
 // src/services/ObservationService.js
 
-const { ObservationRepository } = require('../repositories/ObservationRepository');
+// const { ObservationRepository } = require('../repositories/ObservationRepository'); // REMOVED: No longer create the repository here
 const redisClient = require('../config/redis');
 const { config } = require('../config/config');
 
@@ -10,8 +10,12 @@ const DASHBOARD_CACHE_KEY = 'dashboard:aggregate_stats';
 const LATEST_OBSERVATIONS_CACHE_KEY = 'dashboard:latest_observations';
 
 class ObservationService {
-  constructor() {
-    this.repository = new ObservationRepository();
+  /**
+   * The Repository dependency is injected here.
+   * @param {ObservationRepository} repository 
+   */
+  constructor(repository) {
+    this.repository = repository; 
   }
 
   /**
