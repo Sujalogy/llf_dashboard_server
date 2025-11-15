@@ -1,0 +1,28 @@
+{
+  "routes": [
+    {
+      "method": "get",
+      "path": "/",
+      "controller": "basicController",
+      "action": "homeRoute"
+    },
+    {
+      "method": "get",
+      "path": "/dashboard/stats",
+      "controller": "observationController",
+      "action": "getDashboardStats"
+    },
+    {
+      "method": "get",
+      "path": "/observations/latest",
+      "controller": "observationController",
+      "action": "getLatestObservations"
+    },
+    {
+      "method": "get",
+      "path": "/admin/logs",
+      "controller": "logController",
+      "action": "getApiLogs"
+    }
+  ]
+}
